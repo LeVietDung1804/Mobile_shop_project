@@ -1,0 +1,43 @@
+   <%- include('./layout/head', {title: "Search"}) %>
+   <%- include('./layout/header') %>
+   <%- include('./layout/menu') %>
+   <%- include('./layout/slider') %>
+
+   <!--	List Product	-->
+   <div class="products">
+      <div id="search-result">Kết quả tìm kiếm với sản phẩm <span><%= keyword %></span></div>
+      <div class="product-list card-deck">
+         <% for (let product of products) { %>
+         <div class="product-item card text-center">
+            <a href="/product-<%= product.slug %>.<%= product._id %>"><img src="/static/images/<%= product.thumbnail %>"></a>
+            <h4><a href="/product- <%= product.slug %>.<%= product._id %>"><%= product.name %></a></h4>
+            <p>Giá Bán: <span><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price) %></span></p>
+         </div>
+         <% } %>
+      </div>
+   </div>
+   <!--	End List Product	-->
+
+   <div id="pagination">
+    <ul class="pagination">
+        <% if (page > 1) { %>
+            <li class="page-item"><a class="page-link" href="/search?keyword=<%= keyword %>&page=<%= page - 1 %>">Trang trước</a></li>
+            <% } %>
+   
+            <% for (let pageNum of pages) { %>
+               <% if (pageNum === "...") { %>
+                   <li class="page-item <%= page === pageNum? "active":"" %>"><span class="page-link" href="/search?keyword=<%= keyword %>&page=<%= pageNum %>"><%= pageNum %></span></li>
+               <% } else { %>
+                   <li class="page-item <%= page === pageNum? "active":"" %>"><a class="page-link" href="/search?keyword=<%= keyword %>&page=<%= pageNum %>"><%= pageNum %></a></li>
+               <% } %>
+            <% } %>
+   
+            <% if (page < totalPage) { %>
+            <li class="page-item"><a class="page-link" href="/search?keyword=<%= keyword %>&page=<%= page + 1 %>">Trang sau</a></li>
+            <% } %>
+      </ul>
+   </div>
+
+
+   <%- include('./layout/sidebar') %>
+   <%- include('./layout/footer') %>
